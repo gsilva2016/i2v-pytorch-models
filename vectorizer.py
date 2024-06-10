@@ -9,8 +9,8 @@ class VectorImagePayload(BaseModel):
 class ImageVectorizer:
   img2vec: Img2VecPytorch
 
-  def __init__(self, cuda_support, intel_support, device_core):
-    self.img2vec = Img2VecPytorch(cuda_support, intel_support, device_core)
+  def __init__(self, cuda_support, intel_support, device_core, intel_env):
+    self.img2vec = Img2VecPytorch(cuda_support, intel_support, device_core, intel_env)
 
   def vectorize(self, id: str, image: str):
     try:

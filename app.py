@@ -15,6 +15,7 @@ def startup_event():
 
 	cuda_env = os.getenv("ENABLE_CUDA")
 	intel_gpu_env = os.getenv("ENABLE_INTEL_GPU")
+	intel_env = os.getenv("BASE_IMG")
 	cuda_support = False
 	intel_support = False
 	device_core = ""
@@ -25,7 +26,7 @@ def startup_event():
 		if device_core is None or device_core == "":
 				device_core = "cuda:0"
 		logger.info(f"CUDA_CORE set to {device_core}")
-	elif intel_gpu_env is not None and intel_gpu_env == "true" or intel_gpu_env == "1":
+	elif intel_gpu_env is not None and intel_gpu_env == "true" or intel_gpu_env == "1" or intel_env == "pytorch-openvino":
 		intel_support = True
 		device_core = os.getenv("INTEL_GPU_CORE")
 		if device_core is None or device_core == "":
@@ -34,7 +35,7 @@ def startup_event():
 	else:
 		logger.info("Running on CPU")
 
-	imgVec = ImageVectorizer(cuda_support, intel_support, device_core)
+	imgVec = ImageVectorizer(cuda_support, intel_support, device_core, intel_env)
 
 @app.get("/.well-known/live", response_class=Response)
 @app.get("/.well-known/ready", response_class=Response)
